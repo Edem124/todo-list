@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-        public function index()
+    public function index()
     {
         $user = Auth::user();
 
@@ -48,28 +48,29 @@ class TaskController extends Controller
     }
 
     public function completeTask(Task $task)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    // Marquer la tâche comme terminée et enregistrer l'utilisateur
-    $task->update([
-        'completed' => true,
-        'completed_by' => $user->id,
-    ]);
+        // Marquer la tâche comme terminée et enregistrer l'utilisateur
+        $task->update([
+            'completed' => true,
+            'completed_by' => $user->id,
+        ]);
 
-    // Charger les utilisateurs associés à la tâche
-    $task->load('users');
+        // Charger les utilisateurs associés à la tâche
+        $task->load('users');
 
-    
+        
+        
 
-    // Envoyer des notifications par e-mail aux utilisateurs associés à la tâche
-    $associatedUsers = $task->users;
-    foreach ($associatedUsers as $user) {
-        $user->notify(new TaskCompletedNotification($task));
+        // Envoyer des notifications par e-mail aux utilisateurs associés à la tâche
+        $associatedUsers = $task->users;
+        foreach ($associatedUsers as $user) {
+            $user->notify(new TaskCompletedNotification($task));
+        }
+
+        return redirect()->back()->with('success', 'Tâche marquée comme terminée.');
     }
-
-    return redirect()->back()->with('success', 'Tâche marquée comme terminée.');
-}
 
 
     public function deleteTask(Task $task)
@@ -100,9 +101,9 @@ class TaskController extends Controller
 
         // Mettre à jour les utilisateurs associés à la tâche
         if (isset($validatedData['user_ids'])) {
-            $task->users()->sync($validatedData['user_ids']);
+            $task->users()->attach($validatedData['user_ids']);
         } else {
-            $task->users()->sync([]); // Synchroniser avec un tableau vide pour supprimer toutes les associations
+            $task->users()->attach([]); // Synchroniser avec un tableau vide pour supprimer toutes les associations
         }
         
         return redirect()->route('tasks.index')->with('success', 'Tâche mise à jour avec succès.');
@@ -117,7 +118,7 @@ class TaskController extends Controller
         ]);
 
         // Mettre à jour la relation users avec les utilisateurs sélectionnés
-        $task->users()->sync($validatedData['user_ids']);
+        $task->users()->attach($validatedData['user_ids']);
 
         // Envoyer des notifications par e-mail aux utilisateurs ajoutés
         foreach ($task->users as $user) {
