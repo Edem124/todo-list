@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
-
+use App\Http\Controllers\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,25 +21,37 @@ Route::get('/dashboard', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    // Affichage du tableau de bord
+  
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
 
-    // Ajout de tâches
-    Route::post('/tasks', [TaskController::class, 'addTask'])->name('tasks.add');
+    Route::post('/tasks/{project}', [TaskController::class, 'addTask'])->name('tasks.add');
 
-    // Marquage comme accompli
-    Route::put('/tasks/{task}/complete', [TaskController::class, 'completeTask'])->name('tasks.complete');
+    Route::put('/tasks/{task}/complete/{project}', [TaskController::class, 'completeTask'])->name('tasks.complete');
 
-    // Suppression de tâches
-    Route::delete('/tasks/{task}', [TaskController::class, 'deleteTask'])->name('tasks.delete');
+    Route::delete('/tasks/{task}/{project}', [TaskController::class, 'deleteTask'])->name('tasks.delete');
 
-    Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::get('/tasks/{task}/edit/{project}', [TaskController::class, 'edit'])->name('tasks.edit');
 
-    Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::put('/tasks/{task}/{project}', [TaskController::class, 'update'])->name('tasks.update');
+
+    Route::post('/tasks/{task}/add-users/{project}', [TaskController::class, 'addUsers'])->name('tasks.addUsers');
     
-    Route::post('/tasks/{task}/add-users', [TaskController::class, 'addUsers'])->name('tasks.addUsers');
+    // ... d'autres routes
 
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::put('/projects/{project}/complete', [ProjectController::class, 'complete'])->name('projects.complete');
+    Route::post('/projects/{project}/add-users', [ProjectController::class, 'addUsers'])->name('projects.addUsers');
+    Route::get('/projects/{project}/showt', [ProjectController::class, 'showt'])->name('projects.showt');
+
+    // Ajoutez cette route pour lier une tâche à un projet
+    Route::post('/projects/{project}/tasks/add', [TaskController::class, 'addTask'])->name('projects.tasks.add');
 });
+
 
 Route::get('/', function () {
     return view('welcome');
