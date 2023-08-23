@@ -7,6 +7,9 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
+    plugins: [
+        require('flowbite/plugin')
+    ],
 
     theme: {
         extend: {
