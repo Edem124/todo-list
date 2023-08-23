@@ -21,14 +21,33 @@ class ProjectController extends Controller
 
         return view('projects.index', compact('ownedProjects', 'sharedProjects'));
     }
-
-    public function show(Project $project)
+    public function create()
     {
-        // Récupérer les tâches associées à ce projet
-        $tasks = $project->tasks;
+        // Récupérez la liste des projets de l'utilisateur connecté
+        $user = auth()->user();
+        $ownedProjects = $user->ownedProjects;
+        $sharedProjects = $user->sharedProjects;
 
-        return view('projects.show', compact('project', 'tasks'));
+        return view('projects.create', compact('ownedProjects', 'sharedProjects'));
     }
+
+
+        public function show(Project $project)
+    {
+        // Récupérer toutes les tâches du projet
+        $projectTasks = $project->tasks;
+
+        // Récupérer toutes les tâches assignées aux utilisateurs du projet
+        $assignedTasks = Task::whereHas('users', function ($query) use ($project) {
+            $query->where('project_id', $project->id);
+        })->get();
+
+        // Fusionner les deux listes de tâches
+        $allTasks = $projectTasks->concat($assignedTasks);
+
+        return view('projects.show', compact('project', 'allTasks'));
+    }
+
 
     public function store(Request $request)
     {
@@ -128,6 +147,19 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')->with('success', 'Utilisateurs ajoutés au projet.');
     }
 
+    public function unassignUserFromProject(Project $project, User $user)
+    {
+        // Vérifiez d'abord si l'utilisateur est bien assigné au projet
+        if ($project->users->contains($user)) {
+            // Désassignez l'utilisateur du projet
+            $project->users()->detach($user);
+
+            return redirect()->route('projects.show', $project)->with('success', 'Utilisateur désassigné avec succès.');
+        }
+
+        return redirect()->route('projects.show', $project)->with('error', 'L\'utilisateur n\'est pas assigné à ce projet.');
+    }
+    /*
     public function complete(Project $project)
     {
         $user = Auth::user();
@@ -146,6 +178,27 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('projects.index')->with('success', 'Projet marqué comme terminé.');
+    }*/
+    public function complete(Project $project)
+    {
+        $user = Auth::user();
+       
+        // Vérifier si toutes les tâches du projet sont terminées
+        $incompleteTasks = $project->tasks()->where('completed', false)->count();
+
+        if ($incompleteTasks > 0) {
+            return redirect()->route('projects.index')->with('error', 'Vous devez d\'abord terminer toutes les tâches du projet avant de le marquer comme accompli.');
+        }
+
+         // Marquer le projet comme terminé
+         $project->update([
+            'completed' => true,
+            'completed_by' => $user->id,
+        ]);
+        $project->load('users');
+        
+        return redirect()->route('projects.index')->with('success', 'Projet marqué comme accompli avec succès.');
     }
+
 
 }

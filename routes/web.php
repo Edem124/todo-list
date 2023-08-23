@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects-add', [ProjectController::class, 'create'])->name('projects.create');
     Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
@@ -50,6 +51,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Ajoutez cette route pour lier une tâche à un projet
     Route::post('/projects/{project}/tasks/add', [TaskController::class, 'addTask'])->name('projects.tasks.add');
+
+    Route::get('/projects/{project}/users/{user}', [ProjectController::class, 'unassignUserFromProject'])
+        ->name('projects.users.unassign');
+
+    Route::get('/projects/{project}/tasks/{task}/users/{user}', [TaskController::class, 'unassignUserFromTask'])
+        ->name('projects.tasks.users.unassign');
+
 });
 
 

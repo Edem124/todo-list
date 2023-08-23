@@ -46,8 +46,7 @@ class TaskController extends Controller
 
         return redirect()->route('projects.show', $project)->with('success', 'Tâche ajoutée avec succès.');
     }
-
-
+    
 
     public function completeTask(Task $task, Project $project)
     {
@@ -138,6 +137,19 @@ class TaskController extends Controller
         }
 
         return redirect()->back()->with('success', 'Utilisateurs ajoutés à la tâche.');
+    }
+    
+    public function unassignUserFromTask(Project $project, Task $task, User $user)
+    {
+        // Vérifiez d'abord si l'utilisateur est bien assigné à la tâche dans ce projet
+        if ($task->project_id === $project->id && $task->users->contains($user)) {
+            // Désassignez l'utilisateur de la tâche
+            $task->users()->detach($user);
+
+            return redirect()->route('projects.show', $project)->with('success', 'Utilisateur désassigné de la tâche avec succès.');
+        }
+
+        return redirect()->route('projects.show', $project)->with('error', 'L\'utilisateur n\'est pas assigné à cette tâche dans ce projet.');
     }
 
 

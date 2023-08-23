@@ -1,32 +1,71 @@
+
+
 <x-app-layout>
-    <div class="container mx-auto p-6">
-        <div class="max-w-2xl rounded-lg shadow-md mx-auto" style="background-color:#666666">
-            <div class="p-6">
-                <h2 class="text-white font-semibold mb-4">Ajouter un nouveau projet</h2>
-                <form action="{{ route('projects.store') }}" method="post" class="flex items-center">
-                    @csrf
-                    <input type="text" name="project_name" placeholder="Nouveau projet" required class="flex-grow py-2 px-4 border rounded-l-lg focus:outline-none focus:ring focus:border-blue-300">
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-r-lg">
-                        <i class="fa fa-plus"></i> Ajouter
-                    </button>
-                </form>
-                <!-- Alert -->
-                <div class="alert-success mt-4 p-2 hidden" id="add-alert">
-                    Projet ajouté avec succès!
-                </div>
-            </div>
-        </div><br>
-            <h1 class="col-span-full text-xl font-semibold mb-4">Liste de vos projets</h1>
-        <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div style="background-color:black">   
+        <br>
+        <div class="container mx-auto p-6" style=" background-color: #333333 ;border-radius: 30px;">
             
-            @foreach($ownedProjects as $project)
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <a href="{{ route('projects.show', $project) }}" class="text-lg font-semibold mb-2 hover:underline">{{ $project->name }}</a>
-                    <p>Date de création : {{ $project->created_at }}</p>
-                    <p>Propriétaire : {{ $project->user->name }}</p>
-                    <div class="flex items-center space-x-4"> 
+                <h1 style=" font-size:40px; font-family:Constantia; color:#ffffff ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
+                <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+                <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
+                </svg> Dashboard
+                </h1><hr style="background-color:black "><br> 
+            
+            <h1 class="col-span-full font-semibold mb-4" style=" color: white;background-color: #333333;font-size:20px;">Liste de vos projets</h1>
+            <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                
+                @foreach($ownedProjects as $project)
+                    <div class=" rounded-lg shadow-md p-6" style=" background-color: #4c4c4c;border-radius: 30px;">
+                        <a href="{{ route('projects.show', $project) }}" style=" color:white;font-size:20px; font-family:Sitka;" class="text-lg font-semibold mb-2 hover:underline">{{ $project->name }}</a><hr style="background-color:black ">
+                        <p style=" color:white;">Date de création : {{ $project->created_at }}</p>
+                        <p style=" color:white;">Propriétaire : {{ $project->user->name }}</p>
+                        <div class="flex items-center space-x-4"> 
+                            <!-- Badge d'état -->
+                            <span class="badge @if($project->completed) badge-success @else badge-warning @endif mt-2" style=" color:#4c4c4c;">
+                                @if($project->completed)
+                                    Terminé
+                                @else
+                                    En cours
+                                @endif
+                            </span>
+                            
+                            @if(!$project->completed)
+                                <form action="{{ route('projects.complete', $project) }}" method="post" class="inline-block mr-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" >
+                                        Marquer comme accomplie
+                                    </button>
+                                </form>
+                                
+                                <a style=" color:white;" href="{{ route('projects.edit', $project) }}" class="badge badge-success ">
+                                    Modifier
+                                </a>
+                            @endif
+                            
+                            <form action="{{ route('projects.destroy', $project) }}" method="post" class="inline-block ml-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-info" style=" color:white;" >
+                                    DELETE
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div><br>
+                <h1 class="col-span-full  font-semibold mb-4" style=" color: white;background-color: #333333;font-size:20px;">Liste des autres projets</h1>
+            <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                
+                @foreach($sharedProjects as $project)
+                    <div class=" rounded-lg shadow-md p-6" style=" background-color: #4c4c4c;border-radius: 30px;">
+                        <a href="{{ route('projects.showt', $project) }}"style=" color:white;font-size:20px; font-family:Sitka;" class="text-lg font-semibold mb-2 hover:underline">{{ $project->name }}</a>
+                        <p style=" color:white;">Date de création : {{ $project->created_at }}</p>
+                        <p style=" color:white;">Propriétaire : {{ $project->user->name }}</p>
+                        
                         <!-- Badge d'état -->
-                        <span class="badge @if($project->completed) badge-success @else badge-warning @endif mt-2">
+                        <span class="badge @if($project->completed) badge-success @else badge-warning @endif mt-2"  style=" color:#4c4c4c;">
                             @if($project->completed)
                                 Terminé
                             @else
@@ -38,66 +77,24 @@
                             <form action="{{ route('projects.complete', $project) }}" method="post" class="inline-block mr-2">
                                 @csrf
                                 @method('PUT')
-                                <button type="submit" class="btn-icon" style="color:#5dae79; background-color: white" >
-                                    <i class="fa fa-check"></i>
+                                <button type="submit" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" >
+                                    Marquer comme accomplie
                                 </button>
                             </form>
-                            
-                            <a href="{{ route('projects.edit', $project) }}" class="btn-icon text-dark-500 hover:text-dark-600">
-                                <i class="fa fa-pencil"></i>Modifier
-                            </a>
                         @endif
-                        
-                        <form action="{{ route('projects.destroy', $project) }}" method="post" class="inline-block ml-2">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-icon" style="color:#e24534; background-color: white">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </form>
                     </div>
-                </div>
-            @endforeach
-        </div><br>
-            <h1 class="col-span-full text-xl font-semibold mb-4">Liste des autres projets</h1>
-        <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            
-            @foreach($sharedProjects as $project)
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <a href="{{ route('projects.showt', $project) }}" class="text-lg font-semibold mb-2 hover:underline">{{ $project->name }}</a>
-                    <p>Date de création : {{ $project->created_at }}</p>
-                    <p>Propriétaire : {{ $project->user->name }}</p>
-                    
-                    <!-- Badge d'état -->
-                    <span class="badge @if($project->completed) badge-success @else badge-warning @endif mt-2">
-                        @if($project->completed)
-                            Terminé
-                        @else
-                            En cours
-                        @endif
-                    </span>
-                    
-                    @if(!$project->completed)
-                        <form action="{{ route('projects.complete', $project) }}" method="post" class="inline-block mr-2">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn-icon text-green-500 hover:text-green-600">
-                                <i class="fa fa-check"></i>
-                            </button>
-                        </form>
-                    @endif
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
-
-    <style>
-    .badge-success {
-        background-color: #5dae79;
-    }
-    .badge-warning {
-        background-color: #fdf1b8;
-    }
-</style>
+        <style>
+            
+            .badge-success {
+                background-color: #5dae79;
+            }
+            .badge-warning {
+                background-color: #fdf1b8;
+            }
+        </style>
 
 </x-app-layout>
