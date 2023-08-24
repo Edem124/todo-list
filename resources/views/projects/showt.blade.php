@@ -31,7 +31,7 @@
                                     <form action="{{ route('tasks.complete', ['task' => $task, 'project' => $project]) }}" method="post">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit" class="btn  btn-icon" style="background-color:green;font-size: 16px;">
+                                        <button type="submit" class="badge badge-ter" style="font-size:20px" >
                                             <i class="fas fa-check"></i> Marquer comme accompli
                                         </button>
                                     </form>
@@ -44,6 +44,18 @@
         </div>
     </div>
     <style>
-        /* ... (vos styles personnalisés) ... */
+            
+            .badge-success {
+                background-color: #99ff99;
+            }
+            .badge-warning {
+                background-color: #ffff7f;
+            }
+            .badge-ter {
+                background-color: #9fcbfe;
+            }
+            .badge-del {
+                background-color: #ff7e70;
+            }
     </style>
 </x-app-layout>

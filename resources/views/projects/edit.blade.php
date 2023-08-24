@@ -24,10 +24,10 @@
                         </div>
 
                         <div class="flex justify-center mt-6">
-                            <button type="submit" class="px-4 py-2 hite rounded-md  transition duration-300" style="color:#5dae79; background-color: white">
+                            <button type="submit" class="px-4 py-2 hite rounded-md  transition duration-300 badge-success" >
                                 <i class="fa fa-check mr-2"></i> Mettre à jour
                             </button>
-                            <a href="{{ route('projects.index') }}" class="ml-4 px-4 py-2 transition duration-300" style="color:#e24534; background-color: white">
+                            <a href="{{ route('projects.index') }}" class="ml-4 px-4 py-2 transition duration-300 badge-del" >
                                 <i class="fa fa-times mr-2"></i> Annuler
                             </a>
                         </div>
@@ -43,7 +43,7 @@
                                 @endforeach
                             </select>
                             <div class="flex justify-center mt-4">
-                                <button type="submit" class="px-4 py-2   transition duration-300" style="color:white; background-color: blue">
+                                <button type="submit" class="px-4 py-2   transition duration-300 badge-ter" >
                                     <i class="fa fa-user-plus mr-2"></i> Ajouter Utilisateurs
                                 </button>
                             </div>
@@ -53,5 +53,21 @@
             </div>
         </div>
     </div>
+
+    <style>
+            
+            .badge-success {
+                background-color: blue;
+            }
+            .badge-warning {
+                background-color: #ffff7f;
+            }
+            .badge-ter {
+                background-color: #9fcbfe;
+            }
+            .badge-del {
+                background-color: #ff7e70;
+            }
+        </style>
     
 </x-app-layout>

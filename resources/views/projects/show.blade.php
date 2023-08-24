@@ -15,12 +15,12 @@
             <h1 class="col-span-full font-semibold mb-4" style="color: white; background-color: #333333; font-size: 20px;">
                 Ajouter une nouvelle tâche au projet "{{ $project->name }}"
             </h1>
-            <div class="bg-white rounded-lg shadow-lg p-6" style="max-width: 800px; margin: 0 auto;">
+            <div class="bg-#4c4c4c rounded-lg shadow-lg p-6" style="max-width: 800px; margin: 0 auto;">
                 <form action="{{ route('projects.tasks.add', ['project' => $project->id]) }}" method="post">
                     @csrf
                     <div class="flex items-center space-x-4">
                         <input type="text" name="task_name" placeholder="Nouvelle tâche" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
-                        <button type="submit" style="color: white; background-color:green" class="px-1 py-2 rounded-lg">
+                        <button type="submit"  class=" badge-success  rounded-lg">
                             <i class="fa fa-plus fa-lg"></i> Ajouter
                         </button>
                     </div>
@@ -29,37 +29,37 @@
 
             <br><br>
 
-            <h1 class="col-span-full font-semibold mb-4" style="color: white; background-color: #333333; font-size: 20px;">
+            <h1 class="col-span-full  mb-4" style="color: white; background-color: #333333; font-size: 20px;font-family: Constantia; ">
                 Liste de tâches
             </h1>
-            <div class="bg-white rounded-lg shadow-lg mt-6 p-6" style="max-width: 800px; margin: 0 auto;">
+            <div class="bg-#4c4c4c rounded-lg shadow-lg mt-6 p-6" style="max-width: 800px; margin: 0 auto;">
                 <ul class="list-none p-0">
                     @foreach($allTasks as $task)
                         <li class="mb-4 pb-4 border-b border-gray-200">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <strong class="text-lg font-semibold">{{ $task->name }}</strong>
-                                    <p class="text-gray-500 text-sm">Date de création : {{ $task->created_at }}</p>
-                                    <p class="text-gray-500 text-sm">Propriétaire : {{ $task->user->name }}</p>
+                                    <strong class="text-white font-semibold">NOM:{{ $task->name }}</strong>
+                                    <p class="text-white text-sm">Date de création : {{ $task->created_at }}</p>
+                                    <p class="text-white text-sm">Propriétaire : {{ $task->user->name }}</p>
                                 </div>
                                 <div class="flex items-center space-x-4">
                                     @if($task->completed)
-                                        <span class="text-black rounded-lg font-semibold text-sm" type="submit" style="color: white; background-color:green">Terminé</span>
+                                        <span class="text-black rounded-lg font-semibold text-sm badge-ter ml-2" type="submit" >Terminé</span>
                                     @else
                                         <form action="{{ route('tasks.complete', ['task' => $task, 'project' => $project->id]) }}" method="post">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="rounded-lg p-2 hover:bg-green-600" style="color: white; background-color:green">
-                                                <i class="fa fa-check fa-lg"></i>
+                                            <button type="submit" class="rounded-lg p-2 badge badge-warning ml-2" >
+                                                Accomplir
                                             </button>
                                         </form>
-                                        <a href="{{ route('tasks.edit', ['task' => $task, 'project' => $project->id]) }}" style="color: white; background-color:blue" class="text-blue-500 rounded-lg text-sm">Modifier</a>
+                                        <a href="{{ route('tasks.edit', ['task' => $task, 'project' => $project->id]) }}"  class="ml-2 badge badge-success rounded-lg text-sm">Modifier</a>
                                     @endif
                                     <form action="{{ route('tasks.delete', ['task' => $task, 'project' => $project->id]) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="rounded-lg p-2 hover:bg-red-600" style="color: white; background-color:red">
-                                            <i class="fa fa-trash fa-lg"></i>
+                                        <button type="submit" class="rounded-lg p-2 badge badge-del ml-2" >
+                                            DELETE
                                         </button>
                                     </form>
                                 </div>
@@ -68,20 +68,48 @@
                     @endforeach
                 </ul>
 
-                <h2 style="font-size: 40px; margin-top: 40px; font-family: Sitka;">Tâches assignées aux membres du projet :</h2>
-                <ul>
+                <h2 style="font-size: 40px; margin-top: 40px; font-family: Sitka;color:white;">Tâches assignées aux membres du projet :</h2>
+                <ul style="list-style-type: none; padding-left: 0; margin-top: 20px;">
                     @foreach($project->users as $user)
-                        <li>
-                            <strong>{{ $user->name }}</strong><a href="{{ route('projects.users.unassign', ['project' => $project, 'user' => $user]) }}" style="color: black; font-size: 20px; font-family: Sitka;">Retirer du projet</a>
-                            <ul>
+                        <li style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px; background-color: #f8f8f8;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong style="font-size: 20px;">{{ $user->name }}</strong>
+                                <a href="{{ route('projects.users.unassign', ['project' => $project, 'user' => $user]) }}" style="font-size: 16px; color: #ff0000; text-decoration: none; margin-left: 10px;">
+                                    Retirer du projet
+                                </a>
+                            </div>
+                            <ul style="list-style-type: none; padding-left: 0; margin-top: 10px;">
                                 @foreach($user->tasksInProject($project) as $task)
-                                    <li>{{ $task->name }} <a href="{{ route('projects.tasks.users.unassign', ['project' => $project, 'task' => $task, 'user' => $user]) }}" style="color: black; font-size: 20px; font-family: Sitka;">Retirer la tâche</a></li>
+                                    <li style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 5px; background-color: #ffffff;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="font-size: 18px;">{{ $task->name }}</span>
+                                            <a href="{{ route('projects.tasks.users.unassign', ['project' => $project, 'task' => $task, 'user' => $user]) }}" style="font-size: 16px; color: #ff0000; text-decoration: none;">
+                                                Retirer la tâche
+                                            </a>
+                                        </div>
+                                    </li>
                                 @endforeach
                             </ul>
                         </li>
                     @endforeach
                 </ul>
+
             </div>
         </div>
     </div>
+    <style>
+            
+            .badge-success {
+                background-color: #4cff4c;
+            }
+            .badge-warning {
+                background-color: #ffff7f;
+            }
+            .badge-ter {
+                background-color: #9fcbfe;
+            }
+            .badge-del {
+                background-color: #ff7e70;
+            }
+    </style>
 </x-app-layout>

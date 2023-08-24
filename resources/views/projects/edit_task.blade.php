@@ -52,5 +52,19 @@
             </div>
         </div>
     </div>
-    
+    <style>
+            
+            .badge-success {
+                background-color: #99ff99;
+            }
+            .badge-warning {
+                background-color: #ffff7f;
+            }
+            .badge-ter {
+                background-color: #9fcbfe;
+            }
+            .badge-del {
+                background-color: #ff7e70;
+            }
+    </style>
 </x-app-layout>
