@@ -12,7 +12,7 @@
             <br>
 
             <!-- Contenu de la page -->
-            <h1 class="col-span-full font-semibold mb-4" style="color: white; background-color: #333333; font-size: 20px;">
+            <h1 class="col-span-full font-jetBrains mb-4" style="color: white; background-color: #333333; font-size: 20px;">
                 Ajouter une nouvelle tâche au projet "{{ $project->name }}"
             </h1>
             <div class="bg-#4c4c4c rounded-lg shadow-lg p-6" style="max-width: 800px; margin: 0 auto;">
@@ -29,7 +29,7 @@
 
             <br><br>
 
-            <h1 class="col-span-full  mb-4" style="color: white; background-color: #333333; font-size: 20px;font-family: Constantia; ">
+            <h1 class="col-span-full  mb-4" style="color: white; background-color: #333333; font-size: 20px;font-family: jetBrains Mono; ">
                 Liste de tâches
             </h1>
             <div class="bg-#4c4c4c rounded-lg shadow-lg mt-6 p-6" style="max-width: 800px; margin: 0 auto;">
@@ -38,13 +38,13 @@
                         <li class="mb-4 pb-4 border-b border-gray-200">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <strong class="text-white font-semibold">NOM:{{ $task->name }}</strong>
+                                    <strong class="text-white font-jetBrains">NOM:{{ $task->name }}</strong>
                                     <p class="text-white text-sm">Date de création : {{ $task->created_at }}</p>
                                     <p class="text-white text-sm">Propriétaire : {{ $task->user->name }}</p>
                                 </div>
                                 <div class="flex items-center space-x-4">
                                     @if($task->completed)
-                                        <span class="text-black rounded-lg font-semibold text-sm badge-ter ml-2" type="submit" >Terminé</span>
+                                        <span class="text-black rounded-lg font-jetBrains text-sm badge-ter ml-2" type="submit" >Terminé</span>
                                     @else
                                         <form action="{{ route('tasks.complete', ['task' => $task, 'project' => $project->id]) }}" method="post">
                                             @csrf
@@ -68,13 +68,13 @@
                     @endforeach
                 </ul>
 
-                <h2 style="font-size: 40px; margin-top: 40px; font-family: Sitka;color:white;">Tâches assignées aux membres du projet :</h2>
+                <h2 style="font-size: 30px; margin-top: 40px; font-family: jetBrains Mono;color:white;">Tâches assignées aux membres du projet :</h2>
                 <ul style="list-style-type: none; padding-left: 0; margin-top: 20px;">
                     @foreach($project->users as $user)
                         <li style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px; background-color: #f8f8f8;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <strong style="font-size: 20px;">{{ $user->name }}</strong>
-                                <a href="{{ route('projects.users.unassign', ['project' => $project, 'user' => $user]) }}" style="font-size: 16px; color: #ff0000; text-decoration: none; margin-left: 10px;">
+                                <a href="{{ route('projects.users.unassign', ['project' => $project, 'user' => $user]) }}" class="badge badge-del" style="font-size: 16px;  text-decoration: none; margin-left: 10px;">
                                     Retirer du projet
                                 </a>
                             </div>
@@ -83,7 +83,7 @@
                                     <li style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 5px; background-color: #ffffff;">
                                         <div style="display: flex; justify-content: space-between; align-items: center;">
                                             <span style="font-size: 18px;">{{ $task->name }}</span>
-                                            <a href="{{ route('projects.tasks.users.unassign', ['project' => $project, 'task' => $task, 'user' => $user]) }}" style="font-size: 16px; color: #ff0000; text-decoration: none;">
+                                            <a href="{{ route('projects.tasks.users.unassign', ['project' => $project, 'task' => $task, 'user' => $user]) }}" class="badge badge-del" style="font-size: 16px; text-decoration: none;">
                                                 Retirer la tâche
                                             </a>
                                         </div>

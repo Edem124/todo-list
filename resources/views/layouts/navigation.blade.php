@@ -12,11 +12,10 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')" style="color:white">
+                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')" style="color:white;font-family:jetBrains Mono ; font-size:15px">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')"
-                     style="color:white;">
+                    <x-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')" style="color:white;font-family:jetBrains Mono ; font-size:15px">
                         {{ __('Create') }}
                     </x-nav-link>
                 </div>
@@ -38,7 +37,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('profile.edit')" style="font-family:jetBrains Mono ; font-size:15px">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -48,7 +47,7 @@
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                                this.closest('form').submit();" style="font-family:jetBrains Mono ; font-size:15px">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -79,13 +78,13 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile.edit')" style="font-family:jetBrains Mono; font-size:15px">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')" style="font-family:jetBrains Mono ; font-size:15px">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')">
+                <x-responsive-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')" style="font-family:jetBrains Mono; font-size:15px">
                     {{ __('Create') }}
                 </x-responsive-nav-link>
 

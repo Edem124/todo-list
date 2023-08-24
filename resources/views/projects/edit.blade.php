@@ -3,7 +3,7 @@
         <br>
         <div class="container mx-auto p-6" style="background-color: #333333; border-radius: 30px;">
             <!-- En-tête -->
-            <h1 style="font-size:40px; font-family:Constantia; color:#ffffff ">
+            <h1 style="font-size:40px; font-family:jetBrains Mono; color:#ffffff ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                 <!-- ... (votre icône) ... -->
                 </svg> Modifier le projet
@@ -14,7 +14,7 @@
             
             <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3" >
                 <div class=" rounded-lg shadow-lg p-6 md:p-8 max-w-xl mx-auto" style="background-color=#4c4c4c">
-                    <h1 class="text-3xl font-semibold text-gray-800 mb-6" style="color:#ffffff">Modifier le projet</h1>
+                    <h1 class="text-3xl font-jetBrains text-gray-800 mb-6" style="color:#ffffff">Modifier le projet</h1>
                     <form action="{{ route('projects.update', $project) }}" method="post">
                         @csrf
                         @method('PUT')

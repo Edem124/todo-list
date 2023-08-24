@@ -3,7 +3,7 @@
         <br>
         <div class="container mx-auto p-6" style="background-color: #333333; border-radius: 30px;">
             <!-- En-tête -->
-            <h1 style="font-size:40px; font-family:Constantia; color:#ffffff ">
+            <h1 style="font-size:40px; font-family:jetBrains Mono; color:#ffffff ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                 <!-- ... (votre icône) ... -->
                 </svg> Détail
