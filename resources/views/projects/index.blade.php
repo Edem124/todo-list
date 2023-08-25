@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div  class="bg-gray-950 p-7 min-h-screen">   
+    <div  class="bg-gray-950 p-7 min-h-screen">
         <br>
         <div class="container mx-auto p-6 bg-gray-900 rounded-3xl" >
-            
+
                 <h1 class="text-white font-jetBrains text-4xl ">
                  Dashboard
-                </h1><hr style="background-color:black "><br> 
-            
+                </h1><hr style="background-color:black "><br>
+
             <h1 class="col-span-full font-jetBrains mb-4 text-white text-xl" >Liste de vos projets</h1>
             @if (session('success'))
                 <div id="alert-1" class="flex items-center p-4 mb-4 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
@@ -15,7 +15,7 @@
                     </svg>
                     <span class="sr-only">Info</span>
                     <div class="ml-3 text-sm font-medium">
-                        {{session('success')}} 
+                        {{session('success')}}
                     </div>
                     <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-1" aria-label="Close">
                         <span class="sr-only">Close</span>
@@ -41,7 +41,7 @@
                     </button>
                 </div>
             @elseif (session('warning'))
-                    
+
                 <div id="alert-4" class="flex items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
                     <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -58,9 +58,9 @@
                     </button>
                 </div>
             @endif
-            
+
             <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                
+
                 @foreach($ownedProjects as $project)
                     <div class="rounded-lg shadow-md p-6 m-2 bg-gray-800">
                         <!-- Badge d'état -->
@@ -84,16 +84,16 @@
                                         <a href="{{ route('projects.complete', $project) }}" class="hover:no-underline e block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             Accomplir
                                         </a>
-                                        
+
                                         <a  href="{{ route('projects.edit', $project) }} "class=" hover:no-underline  block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >
                                             Modifier
                                         </a>
 
-                                    @endif 
+                                    @endif
                                     <a  href="{{ route('projects.destroy', $project) }} "class="block hover:no-underline px-4 py-2 hover:bg-gray-100 "  >
                                         Delete
                                     </a>
-                                
+
                             </x-slot>
                         </x-dropdown>
                         <a href="{{ route('projects.show', $project) }}" class="block text-xl hover:no-underline text-white font-jetBrains mb-2 ">{{ $project->name }}</a>
@@ -105,7 +105,7 @@
             </div><br>
                 <h1 class="col-span-full text-white text-xl font-jetBrains mb-4">Liste des projets qu'on vous a assignés</h1>
             <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
-                
+
                 @foreach($sharedProjects as $project)
                     <div class=" rounded-lg shadow-md p-6 m-2 bg-gray-800" >
                         <!-- Badge d'état -->
@@ -126,15 +126,11 @@
                             </x-slot>
                             <x-slot name="content">
                                 @if(!$project->completed)
-                                    <form action="{{ route('projects.complete', $project) }}" method="post" class="inline-block ml-2 mr-2 mt-2">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" class="badge badge-ter"  >
-                                            Accomplir
-                                        </button>
-                                    </form>
+                                    <a href="{{ route('projects.complete', $project) }}" class="hover:no-underline e block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        Accomplir
+                                    </a>
                                 @endif
-                                
+
                             </x-slot>
                         </x-dropdown>
                         <a href="{{ route('projects.showt', $project) }}" class="text-white text-xl font-jetBrains mb-2 hover:underline">{{ $project->name }}</a>
@@ -147,7 +143,7 @@
         </div>
     </div>
         <style>
-            
+
             .badge-success {
                 background-color: #99ff99;
             }
