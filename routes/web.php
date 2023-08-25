@@ -26,9 +26,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/tasks/{project}', [TaskController::class, 'addTask'])->name('tasks.add');
 
-    Route::put('/tasks/{task}/complete/{project}', [TaskController::class, 'completeTask'])->name('tasks.complete');
+    Route::get('/tasks/{task}/complete/{project}', [TaskController::class, 'completeTask'])->name('tasks.complete');
 
-    Route::delete('/tasks/{task}/{project}', [TaskController::class, 'deleteTask'])->name('tasks.delete');
+    Route::get('/tasks/{task}/{project}', [TaskController::class, 'deleteTask'])->name('tasks.delete');
 
     Route::get('/tasks/{task}/edit/{project}', [TaskController::class, 'edit'])->name('tasks.edit');
 
@@ -44,8 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-    Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
-    Route::put('/projects/{project}/complete', [ProjectController::class, 'complete'])->name('projects.complete');
+    Route::get('/projects/{project}/del', [ProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::get('/projects/{project}/complete', [ProjectController::class, 'complete'])->name('projects.complete');
     Route::post('/projects/{project}/add-users', [ProjectController::class, 'addUsers'])->name('projects.addUsers');
     Route::get('/projects/{project}/showt', [ProjectController::class, 'showt'])->name('projects.showt');
 

@@ -6,12 +6,12 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use App\Notifications\ProjectUpdatedNotification;
-use App\Notifications\TaskAssignedNotification;
-use App\Notifications\TaskCompletedNotification;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
+
+
     public function index()
     {
         // Récupérez la liste des projets de l'utilisateur connecté
@@ -32,7 +32,7 @@ class ProjectController extends Controller
     }
 
 
-        public function show(Project $project)
+    public function show(Project $project)
     {
         // Récupérer toutes les tâches du projet
         $projectTasks = $project->tasks;
@@ -111,11 +111,11 @@ class ProjectController extends Controller
             $project->users()->attach([]); // Synchroniser avec un tableau vide pour supprimer toutes les associations
         }
 
-        // Envoyer une notification aux utilisateurs associés au projet
+        /* Envoyer une notification aux utilisateurs associés au projet
         $associatedUsers = $project->users;
         foreach ($associatedUsers as $user) {
             $user->notify(new ProjectUpdatedNotification($project));
-        }
+        }*/
 
         return redirect()->route('projects.index')->with('success', 'Projet mis à jour avec succès.');
     }
@@ -187,7 +187,7 @@ class ProjectController extends Controller
         $incompleteTasks = $project->tasks()->where('completed', false)->count();
 
         if ($incompleteTasks > 0) {
-            return redirect()->route('projects.index')->with('error', 'Vous devez d\'abord terminer toutes les tâches du projet avant de le marquer comme accompli.');
+            return redirect()->route('projects.index')->with('danger', 'Vous devez d\'abord terminer toutes les tâches du projet avant de le marquer comme accompli.');
         }
 
          // Marquer le projet comme terminé

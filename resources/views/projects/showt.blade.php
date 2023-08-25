@@ -1,20 +1,20 @@
 <x-app-layout>
-    <div style="background-color:black;padding: 30px; min-height: 100vh;">   
+    <div class="bg-gray-950 p-7 min-h-screen">   
         <br>
-        <div class="container mx-auto p-6" style="background-color: #333333; border-radius: 30px;">
+        <div class="container mx-auto p-6  bg-gray-900 rounded-3xl max-w-xl">
             <!-- En-tête -->
-            <h1 style="font-size:40px; font-family:jetBrains Mono; color:#ffffff ">
+            <h1 class="text-white font-jetBrains text-4xl">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                 <!-- ... (votre icône) ... -->
                 </svg> Détail
             </h1>
-            <hr style="background-color:black "><br> 
+            <hr class="bg-gray-950 mt-3" ><br> 
 
             <!-- Contenu de la page -->
-            <h1 style="font-size: 28px; margin-bottom: 20px; color: #fff;">Liste des tâches du projet "{{ $project->name }}"</h1>
-            <ul style="list-style: none; padding: 0;">
+            <h1 class="text-2xl mb-5 text-white">Liste des tâches du projet "{{ $project->name }}"</h1>
+            <ul class="p-0 list-none">
                 @foreach($tasks as $task)
-                    <li style="margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <div style="flex-grow: 1;">
                                 <strong style="font-weight: bold; font-size: 18px; margin-right: 10px; color: #ffffff;">Nom :<span @if($task->completed) style="text-decoration: line-through; color: #ffffff;" @endif>

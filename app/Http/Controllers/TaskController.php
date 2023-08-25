@@ -75,7 +75,7 @@ class TaskController extends Controller
     {
         $task->delete();
 
-        return redirect()->route('projects.show', $project);
+        return redirect()->route('projects.show', $project)->with('success', 'Tâche supprimée.');
     }
 
     public function edit(Task $task, Project $project)
@@ -128,15 +128,15 @@ class TaskController extends Controller
         // Mettre à jour la relation users de la tâche avec les utilisateurs filtrés
         $task->users()->attach($filteredUserIds);
 
-        // Envoyer des notifications par e-mail aux utilisateurs ajoutés
+        /* Envoyer des notifications par e-mail aux utilisateurs ajoutés
         foreach ($filteredUserIds as $userId) {
             $user = User::find($userId);
             if ($user) {
                 $user->notify(new AddedToTaskNotification($task));
             }
-        }
+        }*/
 
-        return redirect()->back()->with('success', 'Utilisateurs ajoutés à la tâche.');
+        return redirect()->route('projects.show', $task->project)->with('success', 'Utilisateurs ajoutés à la tâche.');
     }
     
     public function unassignUserFromTask(Project $project, Task $task, User $user)
@@ -147,9 +147,9 @@ class TaskController extends Controller
             $task->users()->detach($user);
 
             return redirect()->route('projects.show', $project)->with('success', 'Utilisateur désassigné de la tâche avec succès.');
-        }
+        }else {
 
-        return redirect()->route('projects.show', $project)->with('error', 'L\'utilisateur n\'est pas assigné à cette tâche dans ce projet.');
+        return redirect()->route('projects.show', $project)->with('danger', 'L\'utilisateur n\'est pas assigné à cette tâche dans ce projet.');}
     }
 
 

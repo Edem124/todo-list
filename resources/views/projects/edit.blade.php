@@ -1,25 +1,24 @@
 <x-app-layout>
-    <div style="background-color:black">   
+    <div class="bg-gray-950">   
         <br>
-        <div class="container mx-auto p-6" style="background-color: #333333; border-radius: 30px;">
+        <div class="container flex flex-col p-6 rounded-3xl bg-gray-900 max-w-2xl ">
             <!-- En-tête -->
             <h1 style="font-size:40px; font-family:jetBrains Mono; color:#ffffff ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                 <!-- ... (votre icône) ... -->
                 </svg> Modifier le projet
             </h1>
-            <hr style="background-color:black "><br> 
+            <hr class="bg-gray-950 mt-3"><br> 
 
             <!-- Contenu de la page -->
             
-            <div class="mt-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3" >
-                <div class=" rounded-lg shadow-lg p-6 md:p-8 max-w-xl mx-auto" style="background-color=#4c4c4c">
-                    <h1 class="text-3xl font-jetBrains text-gray-800 mb-6" style="color:#ffffff">Modifier le projet</h1>
+            
+                <div class=" mx-auto rounded-lg shadow-lg p-6 md:p-8   bg-gray-700 w-[500px] items-center justify-center " >
                     <form action="{{ route('projects.update', $project) }}" method="post">
                         @csrf
                         @method('PUT')
                         <div class="mb-4">
-                            <label for="task_name" class="block text-gray-600 text-sm font-medium mb-2" style="color:#ffffff">Nom du projet :</label>
+                            <label for="task_name" class="block  text-sm font-medium mb-2 text-white">Nom du projet :</label>
                             <input type="text" id="task_name" name="project_name" value="{{ $project->name }}" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 text-gray-700">
                         </div>
 
@@ -50,7 +49,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            
         </div>
     </div>
 
